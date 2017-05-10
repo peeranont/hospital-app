@@ -23,6 +23,7 @@ import {
 } from 'react-native';
 var {height, width} = Dimensions.get('window');
 import MapView from 'react-native-maps';
+import CircleButton from 'react-native-circle-button';
 
 import Dentist from './api/dentist.js';
 import Vet from './api/vet.js';
@@ -226,7 +227,7 @@ export default class l9_map extends Component {
             </MapView.Marker>
           ))}
         </MapView>
-        <View style={styles.container}>
+        {/*<View style={styles.container}>
           <Text>
             Latitude: {this.state.region.latitude}{'\n'}
             Longitude: {this.state.region.longitude}{'\n'}
@@ -248,7 +249,19 @@ export default class l9_map extends Component {
             onPress={ this.findHospital}>
             <Text style={styles.buttonText}>Search</Text>
           </TouchableOpacity>
-        </View>
+
+        </View>*/}
+        <CircleButton
+          size={48}
+          secondaryColor={'#459186E0'}
+          onPressButtonTop = { this.findHospital}
+          onPressButtonLeft = { this.findDentist}
+          onPressButtonRight = { this.findVet}
+          onPressButtonTop = { this.findHospital}
+          iconButtonTop = {require('./images/doctor.png')}
+          iconButtonLeft = {require('./images/dentist.png')}
+          iconButtonRight = {require('./images/cat.png')}
+        />
       </View>
     );
   }
@@ -263,7 +276,8 @@ const styles = StyleSheet.create({
   },
   map: {
     width: width,
-    height: height*2/3
+    // height: height*7/8,
+    height: height
   },
   pin: {
     backgroundColor: '#fffa',
