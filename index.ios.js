@@ -22,13 +22,19 @@ import {
   ScrollView,
 } from 'react-native';
 var {height, width} = Dimensions.get('window');
+
 import MapView from 'react-native-maps';
 import CircleButton from 'react-native-circle-button';
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 
 import Dentist from './api/dentist.js';
 import Vet from './api/vet.js';
 import Hospital from './api/hospital.js';
 import Distance from './api/distance.js';
+
+const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
+const workPlace = {description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+
 
 export default class l9_map extends Component {
   constructor(props){
@@ -260,8 +266,10 @@ export default class l9_map extends Component {
           </TouchableOpacity>
 
           </View>*/}
+
+
         <CircleButton
-          size={48}
+          size={50}
           secondaryColor={'#459186E0'}
           onPressButtonTop = { this.findHospital }
           onPressButtonLeft = { this.findDentist }
@@ -272,6 +280,7 @@ export default class l9_map extends Component {
           iconButtonRight = {require('./images/cat.png')}
           iconButtonBottom = {require('./images/gps.png')}
         />
+
       </View>
     );
   }
