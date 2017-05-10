@@ -49,10 +49,20 @@ export default class l9_map extends Component {
     this.findDentist = this.findDentist.bind(this);
     this.findVet = this.findVet.bind(this);
     this.findHospital = this.findHospital.bind(this);
+    this.moveMaptoLocation = this.moveMaptoLocation.bind(this);
   }
 
   onRegionChange(region) {
     this.setState({region});
+  }
+
+  moveMaptoLocation() {
+    this.refs.map.animateToRegion({
+      latitudeDelta: 0.008,
+      longitudeDelta: 0.008,
+      latitude: this.state.currentLatitude,
+      longitude: this.state.currentLongitude,
+    }, 300);
   }
 
   componentDidMount() {
@@ -157,7 +167,7 @@ export default class l9_map extends Component {
     });
   }
 
-    findHospital(){
+  findHospital(){
       var placeInfo = [];
       var count = -1;
       console.log(`On pressed!` );
@@ -193,36 +203,35 @@ export default class l9_map extends Component {
         //this.state.markers = placeInfo;
         console.log(this.state.markers);
       });
-  }
+    }
 
   render() {
     return (
       <View style={styles.container}>
-        <MapView style={styles.map}
-        showsUserLocation={true}
-        followsUserLocation={true}
-        showsCompass={true}
-        showsPointOfInterest={false}
-        region={this.state.region}
-        onRegionChange={this.onRegionChange}
+        <MapView ref="map"
+          style={styles.map}
+          showsUserLocation={true}
+          followsUserLocation={true}
+          showsCompass={true}
+          showsPointOfInterest={false}
+          region={this.state.region}
+          onRegionChange={this.onRegionChange}
         >
           {this.state.markers.map((marker, i) => (
             <MapView.Marker key={i} coordinate={marker.latlng} title={marker.title} description={marker.description}>
               {/*<View style={styles.pin}>
-                <Image style={styles.pinImage} source={marker.image}/>
-                <Text style={styles.pinText}>
-                  {marker.title}
-                </Text>
-              </View>*/}
+                  <Image style={styles.pinImage} source={marker.image}/>
+                  <Text style={styles.pinText}>
+                    {marker.title}
+                    </Text>
+                </View>*/}
               <MapView.Callout style={styles.callout}>
-
                   <Image style={styles.calloutPhoto} source={marker.photo}/>
                   <Text style={styles.calloutTitle}>{marker.title}</Text>
                   <Text>{marker.description}</Text>
-                  <Text>-------------------------</Text>
+                  <Text>---------------------------</Text>
                   <Text>Distance: {marker.distance}</Text>
                   <Text>Duration: {marker.duration}</Text>
-
               </MapView.Callout>
             </MapView.Marker>
           ))}
@@ -250,17 +259,18 @@ export default class l9_map extends Component {
             <Text style={styles.buttonText}>Search</Text>
           </TouchableOpacity>
 
-        </View>*/}
+          </View>*/}
         <CircleButton
           size={48}
           secondaryColor={'#459186E0'}
-          onPressButtonTop = { this.findHospital}
-          onPressButtonLeft = { this.findDentist}
-          onPressButtonRight = { this.findVet}
-          onPressButtonTop = { this.findHospital}
+          onPressButtonTop = { this.findHospital }
+          onPressButtonLeft = { this.findDentist }
+          onPressButtonRight = { this.findVet }
+          onPressButtonBottom = { this.moveMaptoLocation }
           iconButtonTop = {require('./images/doctor.png')}
           iconButtonLeft = {require('./images/dentist.png')}
           iconButtonRight = {require('./images/cat.png')}
+          iconButtonBottom = {require('./images/gps.png')}
         />
       </View>
     );
